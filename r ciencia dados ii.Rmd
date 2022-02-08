@@ -1,0 +1,75 @@
+---
+title: "Evolução do lucro dos filmes de ação"
+author: "Rafael Giovane Missé"
+date: "08/02/2022"
+output:
+    html_document:
+       highlight: textmate
+       theme: flatly
+       number_sections: yes
+       toc: yes
+       toc_float:
+         collapsed: yes
+         smooth_scroll: no
+---
+# 1) Contextualização
+O Objetivo do presente relatório é avaliar a evolução do lucro dos filmes de ação ao longo dos anos e verificar se a combinação entre ação e outros gêneros influenciam o lucro médio.
+
+## 2) Caracterização dos filmes de ação e gêneros associados
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+library (tidyverse)
+library (readr)
+library(knitr)
+
+banco_de_dados <- readxl::read_xlsx("imdb.xlsx")
+ geral <- banco_de_dados %>%
+  filter(generos %in% c("Action", "Action|Comedy", "Action|Adventure","Action|Sci-Fi")) %>%
+  na.omit(geral)
+kable (head(geral,10))
+
+knitr::opts_chunk$set(echo = FALSE,warning=FALSE, message=FALSE)
+``` 
+
+## 3) Lucro médio dos filmes de ação e gêneros associados 
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+knitr::include_graphics("Rplot03.jpeg")
+
+``` 
+
+## 4) Comparação entre os generos 
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+compre <- tribble(
+  ~nome,                      ~ano,      ~lucro,
+  "Keanu",                      "2016",   "282.006790",
+  "Batman Begins",              "2005",   "553.437740",
+  "Hancock ",                   "2008",   "779.462740",
+  "O exterminador do Futuro",   "1991",   "102.843350") 
+
+compre %>%
+  ggplot() +
+  geom_col(aes(x = nome, 
+               y = lucro)
+           , fill = "indianred1",
+           color = "black",
+           size = .5) +
+  geom_col(aes(x = nome, 
+               y = lucro), 
+           alpha = 0,
+           color = "black",
+           size = .5) +
+  labs (x = "",
+        y = "Lucro médio",
+        title = "Comparação entre gêneros")+
+  theme_light() +
+  coord_flip()
+
+``` 
+
+## 5) Considerações finais
+
+Nota-se uma clara evolução apartir dos anos 2000 acerca o lucro dos filmes de ação, sendo os filmes de ação e drama com lucro médio maior em relação aos demais gêneros. 
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+knitr::include_graphics("ads_hancock1.jpg")
+
+``` 
